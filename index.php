@@ -33,35 +33,93 @@ echo"
 
 ";
 
+$table_name="form";
+
+
+$q = mysqli_query($con,'DESCRIBE form');
+while($row = mysqli_fetch_array($q)) {
+//    echo "{$row['Field']} - {$row['Type']}\n";
+}
+//exit;
+/*
+$sql="select name,fathername from $table_name";
+$query=mysqli_query($con,$sql);
+$col_count=mysqli_num_fields($query);
+$col_type;
+//echo "col count=$col_count";
+for($i=0;$i<$col_count;$i++)
+{
+$temp=mysqli_fetch_field($query);
+$type = mysqli_fetch_field_direct($query);
+$type_value=$type->type;
+$colname[$i]=$temp->name;
+echo "$colname=type=$type_value<br/>";
+}
+exit;
 
 
 
-$array1=Array(
+*/
+$sql="select name,fathername from $table_name";
+
+if ($result = mysqli->query($sql)) {
+
+    /* Get field information for column 'SurfaceArea' */
+    $finfo = $result->fetch_field_direct(1);
+ 
+    printf("Name:     %s\n", $finfo->name);
+    printf("Table:    %s\n", $finfo->table);
+    printf("max. Len: %d\n", $finfo->max_length);
+    printf("Flags:    %d\n", $finfo->flags);
+    printf("Type:     %d\n", $finfo->type);
+    
+    $result->close();
+}
+
+
+exit;
+
+for($i=0;$i<count($colname);$i++)
+$array1[$i]=Array($colname[$i],"text","");
+
+
+
+/*$array1=Array(
    // Array("ApplicantsID","text",""),
    // Array("PostID","number",""),
-    Array("Name","text",""),
-    Array("FatherName","text",""),
-    Array("Dob","date",""),
-    Array("Address","text",""),
-    Array("City","text",""),
-    Array("Mobile","number",""),
-    Array("Mobile1","number",""),
-    Array("EmailID","email",""),
-    Array("TechnicalSkills","number",""),
-    Array("ExpirenceMonths","number",""),
+     
+    Array($colname[0],"text",""),
+     Array($colname[1],"text",""),
+	    Array($colname[2],"text",""),
+     Array($colname[3],"text",""),
+	    Array($colname[4],"text",""),
+     Array($colname[5],"text",""),
+	    Array($colname[6],"text",""),
+     Array($colname[7],"text",""),
+	    Array($colname[8],"text",""),
+     Array($colname[9],"text",""),
+	    Array($colname[10],"text",""),
+     Array($colname[11],"text",""),
+	    Array($colname[12],"text",""),
+     Array($colname[13],"text",""),
+	    Array($colname[14],"text",""),
+     Array($colname[15],"text","")
 );
 
 
-
+*/
 
 
 
 
     $flag=false;
-	
+	$col_name_list="";
 for($i=0;$i<count($array1);$i++  ){
     $label1=$array1[$i][0];
     $type=$array1[$i][1];
+	$col_name_list .=$label1;
+	if($i<count($array1)-1)
+	$col_name_list .=",";
 $cnt_name="cnt_".$i;
     if($flag)
         echo"<div class='row'>";
@@ -84,6 +142,8 @@ $cnt_name="cnt_".$i;
         
 }
 $count=$i;
+echo "<input type='hidden' value='$table_name' name='table_name'/>";
+echo "<input type='hidden' value='$col_name_list' name='col_name_list'/>";
 echo "<input type='hidden' value='$count' name='cnt_count'/>";
 echo"</div>
 </div>
